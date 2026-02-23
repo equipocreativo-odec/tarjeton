@@ -19,160 +19,48 @@
     .wrap{max-width:1100px;margin:24px auto;padding:16px;}
     h1{margin:0 0 8px;font-size:clamp(20px,3.6vw,28px);}
     .sub{color:var(--muted);margin-bottom:16px}
+
     .panel{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,.06);}
     .steps{display:grid;gap:8px;margin:8px 0 14px;padding-left:18px}
     .steps li{line-height:1.4}
+
     .grid{display:grid;gap:12px;grid-template-columns: repeat( auto-fit, minmax(240px, 1fr) );}
+
     .candidate{
       position:relative;background:var(--card);border:2px solid var(--border);border-radius:14px;
-      padding:14px;min-height:210px;display:flex;flex-direction:column;gap:10px;cursor:pointer;
+      padding:12px;min-height:280px;display:flex;flex-direction:column;gap:8px;cursor:pointer;
       transition:.15s border-color, .15s box-shadow; outline:none;
     }
     .candidate:hover{border-color:#cfd6e5;box-shadow:0 2px 10px rgba(0,0,0,.06)}
     .candidate.selected{border-color:var(--accent);box-shadow:0 0 0 3px rgba(39,70,144,.15)}
+
     .name{font-weight:800;line-height:1.15}
     .party{color:var(--muted);font-size:.93rem}
-    .logoBox{
-      margin-top:auto; display:flex; align-items:center; justify-content:center;
-      background:#fafbff;border:1px dashed #d9deea;border-radius:10px; padding:8px; min-height:76px;
+
+    .photoBox{
+      display:flex;align-items:center;justify-content:center; background:#fafbff;
+      border:1px solid #e7eaf5;border-radius:10px; padding:8px; min-height:160px; overflow:hidden;
     }
-    .logoBox img{max-width:90%;max-height:64px;object-fit:contain}
-    .mark{position:absolute;inset:8px;display:none;place-items:center;pointer-events:none;}
-    .mark img{width:68%;max-width:220px;opacity:.9;transform:rotate(-8deg);user-select:none;}
+    .photoBox img{
+      max-width:100%; max-height:190px; object-fit:contain;
+      image-rendering:auto;
+    }
+
+    .mark{
+      position:absolute; inset:8px; display:none; place-items:center; pointer-events:none;
+    }
+    .mark img{
+      width:68%; max-width:220px; opacity:.9; transform:rotate(-8deg); user-select:none;
+    }
     .candidate.selected .mark{display:grid}
 
-    /* Fallback X con CSS si falta X.png */
+    /* Fallback X con CSS si faltara X.png (no hace falta si tienes el archivo) */
     .candidate.css-x.selected::before,
     .candidate.css-x.selected::after{
-      content:""; position:absolute; inset:16px; border-radius:2px; background:transparent;
+      content:""; position:absolute; inset:16px;
     }
     .candidate.css-x.selected::before{border-top:7px solid var(--danger); transform:rotate(45deg);}
     .candidate.css-x.selected::after{border-top:7px solid var(--danger); transform:rotate(-45deg);}
 
     .controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:14px}
     button{border:1px solid var(--border);background:var(--accent);color:#fff;border-radius:10px;padding:10px 14px;font-weight:600;cursor:pointer}
-    button.secondary{background:#fff;color:var(--text)}
-    .summary{margin-top:8px;padding:10px 12px;border-left:4px solid var(--accent-2);background:#eef8f1;border-radius:8px}
-    .sr{position:absolute;left:-9999px}
-  </style>
-</head>
-<body>
-  <div class="wrap">
-    <h1>Consulta del Frente por la Vida – Tarjetón Pedagógico</h1>
-    <p class="sub">Selecciona una opción. Al marcar, se superpone la X y se registra tu selección.</p>
-
-    <div class="panel" aria-labelledby="instrucciones">
-      <h2 id="instrucciones" style="margin:.2rem 0 .4rem;font-size:1.05rem">¿Cómo votar en el ejercicio?</h2>
-      <ol class="steps">
-        <li>Lee los nombres y observa el logo o lema correspondiente.</li>
-        <li>Haz clic (o usa <kbd>Tab</kbd> + <kbd>Enter</kbd>/<kbd>Espacio</kbd>) para <strong>marcar una única opción</strong>.</li>
-        <li>Se mostrará una <strong>X</strong> sobre el recuadro seleccionado.</li>
-        <li>Usa <strong>Limpiar</strong> si deseas cambiar tu selección.</li>
-      </ol>
-    </div>
-
-    <div class="grid" role="radiogroup" aria-label="Tarjetón – Selecciona un candidato">
-      <!-- DANIEL QUINTERO (AICO) -->
-      <div class="candidate" role="radio" tabindex="0" aria-checked="false" data-id="daniel-quintero">
-        <div class="name">DANIEL QUINTERO CALLE</div>
-        <div class="party">Movimiento Autoridades Indígenas de Colombia (AICO)</div>
-        <div class="logoBox">
-          <img src="logos/aico.png" alt="Logo AICO" onerror="this.closest('.candidate').classList.add('css-x'); this.remove()">
-        </div>
-        <div class="mark"><img src="X.png" alt=""></div>
-      </div>
-
-      <!-- EDISON L. TORRES (PTC) -->
-      <div class="candidate" role="radio" tabindex="0" aria-checked="false" data-id="edison-torres">
-        <div class="name">EDISON LUCIO TORRES MORENO</div>
-        <div class="party">PTC – Partido del Trabajo de Colombia</div>
-        <div class="logoBox">
-          <img src="logos/ptc.png" alt="Logo PTC" onerror="this.closest('.candidate').classList.add('css-x'); this.remove()">
-        </div>
-        <div class="mark"><img src="X.png" alt=""></div>
-      </div>
-
-      <!-- HÉCTOR E. PINEDA (La Fuerza) -->
-      <div class="candidate" role="radio" tabindex="0" aria-checked="false" data-id="hector-pineda">
-        <div class="name">HECTOR ELIAS PINEDA SALAZAR</div>
-        <div class="party">La Fuerza!</div>
-        <div class="logoBox">
-          <img src="logos/la-fuerza.png" alt="Logo La Fuerza" onerror="this.closest('.candidate').classList.add('css-x'); this.remove()">
-        </div>
-        <div class="mark"><img src="X.png" alt=""></div>
-      </div>
-
-      <!-- ROY L. BARRERAS (Lema “Sólo con Roy…”) -->
-      <div class="candidate" role="radio" tabindex="0" aria-checked="false" data-id="roy-barreras">
-        <div class="name">ROY LEONARDO BARRERAS MONTEALEGRE</div>
-        <div class="party">“SÓLO CON Roy ¡GANAMOS TODOS!”</div>
-        <div class="logoBox">
-          <img src="logos/roy-ganamos-todos.png" alt="Lema gráfico Roy ¡Ganamos Todos!" onerror="this.closest('.candidate').classList.add('css-x'); this.remove()">
-        </div>
-        <div class="mark"><img src="X.png" alt=""></div>
-      </div>
-
-      <!-- MARTHA V. BERNAL (La Fuerza) -->
-      <div class="candidate" role="radio" tabindex="0" aria-checked="false" data-id="martha-bernal">
-        <div class="name">MARTHA VIVIANA BERNAL AMAYA</div>
-        <div class="party">La Fuerza!</div>
-        <div class="logoBox">
-          <img src="logos/la-fuerza.png" alt="Logo La Fuerza" onerror="this.closest('.candidate').classList.add('css-x'); this.remove()">
-        </div>
-        <div class="mark"><img src="X.png" alt=""></div>
-      </div>
-    </div>
-
-    <div class="controls">
-      <button id="btnConfirmar" title="Mostrar selección actual">Confirmar selección</button>
-      <button class="secondary" id="btnLimpiar" title="Quitar todas las marcas">Limpiar</button>
-      <span id="live" class="sr" aria-live="polite"></span>
-    </div>
-
-    <div class="summary" id="resumen" hidden>
-      <strong>Selección:</strong> <span id="seleccion"></span>
-    </div>
-
-    <script>
-      const cards = Array.from(document.querySelectorAll('.candidate'));
-      const resumen = document.getElementById('resumen');
-      const seleccionTxt = document.getElementById('seleccion');
-      const live = document.getElementById('live');
-
-      function setSelected(card){
-        cards.forEach(c=>{
-          const isSel = (c===card);
-          c.classList.toggle('selected', isSel);
-          c.setAttribute('aria-checked', isSel ? 'true' : 'false');
-        });
-        announce('Opción seleccionada: ' + getSelectedName());
-      }
-
-      function getSelectedCard(){ return cards.find(c => c.classList.contains('selected')) || null; }
-      function getSelectedName(){ const c = getSelectedCard(); return c ? c.querySelector('.name').textContent.trim() : 'ninguna'; }
-      function announce(msg){ live.textContent=''; setTimeout(()=>live.textContent=msg, 10); }
-      function updateResumen(){
-        const name = getSelectedName();
-        resumen.hidden = false;
-        seleccionTxt.textContent = (name==='ninguna') ? 'Sin selección' : name;
-      }
-
-      cards.forEach(c=>{
-        c.addEventListener('click', ()=> setSelected(c));
-        c.addEventListener('keydown', (e)=>{
-          if(e.key==='Enter' || e.key===' '){ e.preventDefault(); setSelected(c); }
-          const idx = cards.indexOf(c);
-          if(e.key==='ArrowRight' || e.key==='ArrowDown'){ e.preventDefault(); cards[(idx+1)%cards.length].focus(); }
-          if(e.key==='ArrowLeft' || e.key==='ArrowUp'){ e.preventDefault(); cards[(idx-1+cards.length)%cards.length].focus(); }
-        });
-      });
-
-      document.getElementById('btnConfirmar').addEventListener('click', updateResumen);
-      document.getElementById('btnLimpiar').addEventListener('click', ()=>{
-        cards.forEach(c=>{ c.classList.remove('selected'); c.setAttribute('aria-checked','false'); });
-        updateResumen(); announce('Selección borrada');
-      });
-    </script>
-  </div>
-</body>
-</html>
