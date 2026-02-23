@@ -12,7 +12,6 @@
     .sub{color:var(--muted);margin-bottom:16px}
     .panel{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
     .steps{display:grid;gap:8px;margin:8px 0 14px;padding-left:18px}
-    .steps li{line-height:1.4}
     .grid{display:grid;gap:12px;grid-template-columns: repeat( auto-fit, minmax(240px, 1fr) )}
     .candidate{position:relative;background:var(--card);border:2px solid var(--border);border-radius:14px;padding:12px;min-height:320px;display:flex;flex-direction:column;gap:10px;cursor:pointer;transition:.15s border-color,.15s box-shadow;outline:none}
     .candidate:hover{border-color:#cfd6e5;box-shadow:0 2px 10px rgba(0,0,0,.06)}
@@ -29,62 +28,59 @@
     .summary{margin-top:8px;padding:10px 12px;border-left:4px solid var(--accent-2);background:#eef8f1;border-radius:8px}
     .sr{position:absolute;left:-9999px}
   </style>
+  <script src="config.js"></script>
 </head>
 <body>
   <div class="wrap">
     <h1>Consulta del Frente por la Vida – Tarjetón Pedagógico</h1>
-    <p class="sub">Selecciona una opción. Al marcar, se superpone la X y se registra tu selección.</p>
+    <p class="sub">Este tarjetón usa tus imágenes **tal cual las coloques** en la misma carpeta del HTML. Los nombres de archivo se usan para contar votos en tu hoja.</p>
 
     <div class="panel" aria-labelledby="instrucciones">
       <h2 id="instrucciones" style="margin:.2rem 0 .4rem;font-size:1.05rem">¿Cómo votar en el ejercicio?</h2>
       <ol class="steps">
-        <li>Revisa las opciones disponibles en el tarjetón.</li>
         <li>Haz clic (o usa <kbd>Tab</kbd> + <kbd>Enter</kbd>/<kbd>Espacio</kbd>) para <strong>marcar una única opción</strong>.</li>
         <li>Se mostrará una <strong>X</strong> sobre el recuadro seleccionado.</li>
-        <li>Usa <strong>Limpiar</strong> si deseas cambiar tu selección.</li>
+        <li>Presiona <strong>Enviar voto</strong> para registrar el nombre del archivo en tu Google Sheet.</li>
       </ol>
     </div>
 
-    <div class="grid" role="radiogroup" aria-label="Tarjetón – Selecciona un candidato">
-      <div class="candidate" role="radio" tabindex="0" aria-checked="false" data-id="daniel-quintero">
+    <div class="grid" role="radiogroup" aria-label="Tarjetón – Selecciona un candidato" id="grid">
+      <!-- Las imágenes deben estar junto al HTML con estos nombres exactos -->
+      <div class="candidate" role="radio" tabindex="0" aria-checked="false" data-file="Daniel Quintero.png">
         <div class="name">DANIEL QUINTERO CALLE</div>
-        <div class="photoBox"><img src="Daniel Quintero.png" alt="Imagen provista: Daniel Quintero.png"></div>
+        <div class="photoBox"><img src="Daniel Quintero.png" alt="Daniel Quintero.png"></div>
         <div class="mark"><img src="X.png" alt="Marca X"></div>
       </div>
-
-      <div class="candidate" role="radio" tabindex="0" aria-checked="false" data-id="edinson-torres">
+      <div class="candidate" role="radio" tabindex="0" aria-checked="false" data-file="Edinson Torres.png">
         <div class="name">EDISON LUCIO TORRES MORENO</div>
-        <div class="photoBox"><img src="Edinson Torres.png" alt="Imagen provista: Edinson Torres.png"></div>
+        <div class="photoBox"><img src="Edinson Torres.png" alt="Edinson Torres.png"></div>
         <div class="mark"><img src="X.png" alt="Marca X"></div>
       </div>
-
-      <div class="candidate" role="radio" tabindex="0" aria-checked="false" data-id="hector-pineda">
+      <div class="candidate" role="radio" tabindex="0" aria-checked="false" data-file="Hector Pineda.png">
         <div class="name">HECTOR ELIAS PINEDA SALAZAR</div>
-        <div class="photoBox"><img src="Hector Pineda.png" alt="Imagen provista: Hector Pineda.png"></div>
+        <div class="photoBox"><img src="Hector Pineda.png" alt="Hector Pineda.png"></div>
         <div class="mark"><img src="X.png" alt="Marca X"></div>
       </div>
-
-      <div class="candidate" role="radio" tabindex="0" aria-checked="false" data-id="roy-barreras">
+      <div class="candidate" role="radio" tabindex="0" aria-checked="false" data-file="Roy Barreras.png">
         <div class="name">ROY LEONARDO BARRERAS MONTEALEGRE</div>
-        <div class="photoBox"><img src="Roy Barreras.png" alt="Imagen provista: Roy Barreras.png"></div>
+        <div class="photoBox"><img src="Roy Barreras.png" alt="Roy Barreras.png"></div>
         <div class="mark"><img src="X.png" alt="Marca X"></div>
       </div>
-
-      <div class="candidate" role="radio" tabindex="0" aria-checked="false" data-id="martha-bernal">
+      <div class="candidate" role="radio" tabindex="0" aria-checked="false" data-file="Martha Bernal.png">
         <div class="name">MARTHA VIVIANA BERNAL AMAYA</div>
-        <div class="photoBox"><img src="Martha Bernal.png" alt="Imagen provista: Martha Bernal.png"></div>
+        <div class="photoBox"><img src="Martha Bernal.png" alt="Martha Bernal.png"></div>
         <div class="mark"><img src="X.png" alt="Marca X"></div>
       </div>
     </div>
 
     <div class="controls">
-      <button id="btnConfirmar" title="Mostrar selección actual">Confirmar selección</button>
-      <button class="secondary" id="btnLimpiar" title="Quitar todas las marcas">Limpiar</button>
+      <button id="btnEnviar" title="Enviar el voto a la hoja">Enviar voto</button>
+      <button class="secondary" id="btnLimpiar" title="Quitar la marca">Limpiar</button>
       <span id="live" class="sr" aria-live="polite"></span>
     </div>
 
     <div class="summary" id="resumen" hidden>
-      <strong>Selección:</strong> <span id="seleccion"></span>
+      <strong>Seleccionaste:</strong> <span id="seleccion"></span>
     </div>
   </div>
 
@@ -95,18 +91,16 @@
     const live = document.getElementById('live');
 
     function setSelected(card){
-      cards.forEach(c=>{
-        const isSel = (c===card);
-        c.classList.toggle('selected', isSel);
-        c.setAttribute('aria-checked', isSel ? 'true' : 'false');
-      });
-      announce('Opción seleccionada: ' + getSelectedName());
+      cards.forEach(c=>{ const isSel = (c===card); c.classList.toggle('selected', isSel); c.setAttribute('aria-checked', isSel ? 'true' : 'false'); });
+      const f = getSelectedFile();
+      seleccionTxt.textContent = f ? f : 'Sin selección';
+      resumen.hidden = false;
+      announce('Opción seleccionada');
     }
 
     function getSelectedCard(){ return cards.find(c => c.classList.contains('selected')) || null; }
-    function getSelectedName(){ const c = getSelectedCard(); return c ? c.querySelector('.name').textContent.trim() : 'ninguna'; }
+    function getSelectedFile(){ const c = getSelectedCard(); return c ? c.dataset.file : null; }
     function announce(msg){ live.textContent=''; setTimeout(()=>live.textContent=msg, 10); }
-    function updateResumen(){ const name = getSelectedName(); resumen.hidden = false; seleccionTxt.textContent = (name==='ninguna') ? 'Sin selección' : name; }
 
     cards.forEach(c=>{
       c.addEventListener('click', ()=> setSelected(c));
@@ -118,11 +112,25 @@
       });
     });
 
-    document.getElementById('btnConfirmar').addEventListener('click', updateResumen);
     document.getElementById('btnLimpiar').addEventListener('click', ()=>{
       cards.forEach(c=>{ c.classList.remove('selected'); c.setAttribute('aria-checked','false'); });
-      updateResumen(); announce('Selección borrada');
+      seleccionTxt.textContent = 'Sin selección'; resumen.hidden = false; announce('Selección borrada');
     });
+
+    async function enviar(){
+      const file = getSelectedFile();
+      if(!file){ alert('Primero selecciona una opción.'); return; }
+      if(!window.SHEETS_ENDPOINT){ alert('Falta configurar SHEETS_ENDPOINT en config.js'); return; }
+      try{
+        const res = await fetch(window.SHEETS_ENDPOINT, { method:'POST', mode:'cors', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ filename:file, ts: new Date().toISOString() }) });
+        if(!res.ok) throw new Error('HTTP '+res.status);
+        alert('Voto registrado: '+file);
+      }catch(err){
+        console.error(err); alert('No se pudo registrar. Revisa el endpoint en config.js.');
+      }
+    }
+
+    document.getElementById('btnEnviar').addEventListener('click', enviar);
   </script>
 </body>
 </html>
