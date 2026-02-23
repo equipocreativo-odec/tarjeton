@@ -33,19 +33,19 @@
 <body>
   <div class="wrap">
     <h1>Consulta del Frente por la Vida – Tarjetón Pedagógico</h1>
-    <p class="sub">Este tarjetón usa tus imágenes **tal cual las coloques** en la misma carpeta del HTML. Los nombres de archivo se usan para contar votos en tu hoja.</p>
+    <p class="sub">Este tarjetón usa tus imágenes exactamente como las coloques y registra el voto usando el <strong>nombre del archivo</strong>.</p>
 
     <div class="panel" aria-labelledby="instrucciones">
-      <h2 id="instrucciones" style="margin:.2rem 0 .4rem;font-size:1.05rem">¿Cómo votar en el ejercicio?</h2>
+      <h2 id="instrucciones" style="margin:.2rem 0 .4rem;font-size:1.05rem">¿Cómo participar?</h2>
       <ol class="steps">
-        <li>Haz clic (o usa <kbd>Tab</kbd> + <kbd>Enter</kbd>/<kbd>Espacio</kbd>) para <strong>marcar una única opción</strong>.</li>
-        <li>Se mostrará una <strong>X</strong> sobre el recuadro seleccionado.</li>
-        <li>Presiona <strong>Enviar voto</strong> para registrar el nombre del archivo en tu Google Sheet.</li>
+        <li>Selecciona una sola opción.</li>
+        <li>Se mostrará una X sobre el recuadro elegido.</li>
+        <li>Presiona <strong>Enviar voto</strong> para registrar el <em>filename</em> en tu hoja.</li>
       </ol>
     </div>
 
-    <div class="grid" role="radiogroup" aria-label="Tarjetón – Selecciona un candidato" id="grid">
-      <!-- Las imágenes deben estar junto al HTML con estos nombres exactos -->
+    <div class="grid" role="radiogroup" aria-label="Tarjetón – Selecciona una opción" id="grid">
+      <!-- Mostramos solo Nombre + Primer Apellido, pero mantenemos el nombre de archivo exacto para el envío -->
       <div class="candidate" role="radio" tabindex="0" aria-checked="false" data-file="Daniel Quintero.png">
         <div class="name">DANIEL QUINTERO</div>
         <div class="photoBox"><img src="Daniel Quintero.png" alt="Daniel Quintero.png"></div>
