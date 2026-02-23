@@ -3,134 +3,141 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Tarjetón Interactivo – Consulta del Frente por la Vida</title>
+  <title>Tarjeta Consulta – Frente por la Vida (Ejercicio Pedagógico)</title>
   <style>
-    :root{--accent:#274690;--accent-2:#28a745;--bg:#f6f7fb;--card:#ffffff;--text:#1f2937;--muted:#6b7280;--border:#e5e7eb;--danger:#cc0000}
-    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif}
-    .wrap{max-width:1100px;margin:24px auto;padding:16px}
-    h1{margin:0 0 8px;font-size:clamp(20px,3.6vw,28px)}
-    .sub{color:var(--muted);margin-bottom:16px}
-    .panel{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
-    .steps{display:grid;gap:8px;margin:8px 0 14px;padding-left:18px}
-    .grid{display:grid;gap:12px;grid-template-columns: repeat( auto-fit, minmax(240px, 1fr) )}
-    .candidate{position:relative;background:var(--card);border:2px solid var(--border);border-radius:14px;padding:12px;min-height:320px;display:flex;flex-direction:column;gap:10px;cursor:pointer;transition:.15s border-color,.15s box-shadow;outline:none}
-    .candidate:hover{border-color:#cfd6e5;box-shadow:0 2px 10px rgba(0,0,0,.06)}
-    .candidate.selected{border-color:var(--accent);box-shadow:0 0 0 3px rgba(39,70,144,.15)}
-    .name{font-weight:800;line-height:1.15}
-    .photoBox{display:flex;align-items:center;justify-content:center;background:#fafbff;border:1px solid #e7eaf5;border-radius:10px;padding:8px;min-height:200px;overflow:hidden}
-    .photoBox img{max-width:100%;max-height:240px;object-fit:contain}
+    /* Estilo sobrio, cercano a una tarjeta oficial para ejercicios pedagógicos */
+    :root{
+      --ink:#111827; --muted:#374151; --line:#d1d5db; --accent:#111827; --green:#198754; --warn:#b91c1c;
+      --paper:#ffffff; --bg:#f3f4f6;
+    }
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif}
+    .sheet{max-width:980px;margin:28px auto;background:var(--paper);box-shadow:0 1px 20px rgba(0,0,0,.06);border:1px solid var(--line)}
+    .hdr{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid var(--ink);padding:18px 20px}
+    .hdr h1{font-size:20px;line-height:1.25;margin:0;text-transform:uppercase;letter-spacing:.3px}
+    .hdr small{color:var(--muted)}
+
+    .notice{padding:12px 20px;border-bottom:1px solid var(--line);font-size:14px;color:var(--muted)}
+    .notice b{color:var(--ink)}
+
+    .grid{display:grid;gap:0;border-top:1px solid var(--line);border-left:1px solid var(--line);
+      grid-template-columns: repeat(2, 1fr);
+    }
+    @media (max-width:700px){ .grid{grid-template-columns:1fr} }
+
+    .cell{position:relative;min-height:240px;display:flex;flex-direction:column;gap:8px;padding:12px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);cursor:pointer}
+    .cell:focus{outline:3px solid #1d4ed81f}
+    .cell.selected{box-shadow:inset 0 0 0 2px var(--ink)}
+
+    .candidate-name{font-weight:800;text-align:center;margin-top:6px}
+    .photo{flex:1 1 auto;display:flex;align-items:center;justify-content:center;background:#fafafa;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+    .photo img{max-width:100%;max-height:200px;object-fit:contain}
+
     .mark{position:absolute;inset:8px;display:none;place-items:center;pointer-events:none}
-    .mark img{width:68%;max-width:220px;opacity:.9;transform:rotate(-8deg);user-select:none}
-    .candidate.selected .mark{display:grid}
-    .controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:14px}
-    button{border:1px solid var(--border);background:var(--accent);color:#fff;border-radius:10px;padding:10px 14px;font-weight:600;cursor:pointer}
-    button.secondary{background:#fff;color:var(--text)}
-    .summary{margin-top:8px;padding:10px 12px;border-left:4px solid var(--accent-2);background:#eef8f1;border-radius:8px}
+    .mark img{width:55%;max-width:240px;opacity:.95}
+    .cell.selected .mark{display:grid}
+
+    .foot{display:flex;gap:10px;align-items:center;justify-content:space-between;padding:12px 20px;border-top:2px solid var(--ink)}
+    .foot .rules{font-size:14px;color:var(--muted)}
+    .meta{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+    .meta div{border:1px solid var(--line);height:42px}
+
+    .controls{display:flex;gap:10px;flex-wrap:wrap}
+    .btn{border:1px solid var(--ink);background:var(--ink);color:#fff;padding:10px 14px;font-weight:700;letter-spacing:.2px;cursor:pointer}
+    .btn.secondary{background:transparent;color:var(--ink)}
+
     .sr{position:absolute;left:-9999px}
   </style>
   <script src="config.js"></script>
 </head>
 <body>
-  <div class="wrap">
-    <h1>Consulta del Frente por la Vida – Tarjetón Pedagógico</h1>
-    <p class="sub">Este tarjetón usa tus imágenes exactamente como las coloques y registra el voto usando el <strong>nombre del archivo</strong>.</p>
+  <main class="sheet" role="application" aria-label="Tarjeta Consulta – Ejercicio Pedagógico">
+    <header class="hdr">
+      <h1>VOTO PARA LAS CONSULTAS — TARJETA DE EJERCICIO PEDAGÓGICO</h1>
+      <small>Fecha referencial: 8 de marzo de 2026</small>
+    </header>
 
-    <div class="panel" aria-labelledby="instrucciones">
-      <h2 id="instrucciones" style="margin:.2rem 0 .4rem;font-size:1.05rem">¿Cómo participar?</h2>
-      <ol class="steps">
-        <li>Selecciona una sola opción.</li>
-        <li>Se mostrará una X sobre el recuadro elegido.</li>
-        <li>Presiona <strong>Enviar voto</strong> para registrar el <em>filename</em> en tu hoja.</li>
-      </ol>
+    <div class="notice">
+      <p><b>Instrucciones para votar (simulación):</b> Marque con una <b>X</b> el precandidato de su preferencia. <b>Marcar más de una opción anula el voto</b>. Este recurso es exclusivamente pedagógico.</p>
     </div>
 
-    <div class="grid" role="radiogroup" aria-label="Tarjetón – Selecciona una opción" id="grid">
-      <!-- Mostramos solo Nombre + Primer Apellido, pero mantenemos el nombre de archivo exacto para el envío -->
-      <div class="candidate" role="radio" tabindex="0" aria-checked="false" data-file="Daniel Quintero.png">
-        <div class="name">DANIEL QUINTERO</div>
-        <div class="photoBox"><img src="Daniel Quintero.png" alt="Daniel Quintero.png"></div>
-        <div class="mark"><img src="X.png" alt="Marca X"></div>
-      </div>
-      <div class="candidate" role="radio" tabindex="0" aria-checked="false" data-file="Edinson Torres.png">
-        <div class="name">EDISON TORRES</div>
-        <div class="photoBox"><img src="Edinson Torres.png" alt="Edinson Torres.png"></div>
-        <div class="mark"><img src="X.png" alt="Marca X"></div>
-      </div>
-      <div class="candidate" role="radio" tabindex="0" aria-checked="false" data-file="Hector Pineda.png">
-        <div class="name">HECTOR PINEDA</div>
-        <div class="photoBox"><img src="Hector Pineda.png" alt="Hector Pineda.png"></div>
-        <div class="mark"><img src="X.png" alt="Marca X"></div>
-      </div>
-      <div class="candidate" role="radio" tabindex="0" aria-checked="false" data-file="Roy Barreras.png">
-        <div class="name">ROY BARRERAS</div>
-        <div class="photoBox"><img src="Roy Barreras.png" alt="Roy Barreras.png"></div>
-        <div class="mark"><img src="X.png" alt="Marca X"></div>
-      </div>
-      <div class="candidate" role="radio" tabindex="0" aria-checked="false" data-file="Martha Bernal.png">
-        <div class="name">MARTHA BERNAL</div>
-        <div class="photoBox"><img src="Martha Bernal.png" alt="Martha Bernal.png"></div>
-        <div class="mark"><img src="X.png" alt="Marca X"></div>
-      </div>
-    </div>
+    <section class="grid" role="radiogroup" aria-label="Seleccione una única opción" id="grid">
+      <!-- Solo mostramos Nombre + Primer Apellido. El envío usa el nombre EXACTO del archivo -->
 
-    <div class="controls">
-      <button id="btnEnviar" title="Enviar el voto a la hoja">Enviar voto</button>
-      <button class="secondary" id="btnLimpiar" title="Quitar la marca">Limpiar</button>
-      <span id="live" class="sr" aria-live="polite"></span>
-    </div>
+      <article class="cell" role="radio" tabindex="0" aria-checked="false" data-file="Daniel Quintero.png">
+        <div class="photo"><img src="Daniel Quintero.png" alt="Daniel Quintero.png"></div>
+        <div class="candidate-name">DANIEL QUINTERO</div>
+        <div class="mark"><img src="X.png" alt="Marca X"></div>
+      </article>
 
-    <div class="summary" id="resumen" hidden>
-      <strong>Seleccionaste:</strong> <span id="seleccion"></span>
-    </div>
-  </div>
+      <article class="cell" role="radio" tabindex="0" aria-checked="false" data-file="Edinson Torres.png">
+        <div class="photo"><img src="Edinson Torres.png" alt="Edinson Torres.png"></div>
+        <div class="candidate-name">EDISON TORRES</div>
+        <div class="mark"><img src="X.png" alt="Marca X"></div>
+      </article>
+
+      <article class="cell" role="radio" tabindex="0" aria-checked="false" data-file="Hector Pineda.png">
+        <div class="photo"><img src="Hector Pineda.png" alt="Hector Pineda.png"></div>
+        <div class="candidate-name">HECTOR PINEDA</div>
+        <div class="mark"><img src="X.png" alt="Marca X"></div>
+      </article>
+
+      <article class="cell" role="radio" tabindex="0" aria-checked="false" data-file="Roy Barreras.png">
+        <div class="photo"><img src="Roy Barreras.png" alt="Roy Barreras.png"></div>
+        <div class="candidate-name">ROY BARRERAS</div>
+        <div class="mark"><img src="X.png" alt="Marca X"></div>
+      </article>
+
+      <article class="cell" role="radio" tabindex="0" aria-checked="false" data-file="Martha Bernal.png">
+        <div class="photo"><img src="Martha Bernal.png" alt="Martha Bernal.png"></div>
+        <div class="candidate-name">MARTHA BERNAL</div>
+        <div class="mark"><img src="X.png" alt="Marca X"></div>
+      </article>
+    </section>
+
+    <footer class="foot">
+      <div class="rules"><b>Recuerde:</b> Marque una sola opción. Esta tarjeta es una simulación pedagógica.</div>
+      <div class="controls">
+        <button class="btn" id="btnEnviar" title="Registrar voto en hoja">Enviar voto</button>
+        <button class="btn secondary" id="btnLimpiar" title="Limpiar selección">Limpiar</button>
+      </div>
+    </footer>
+
+    <div class="sr" id="live" aria-live="polite"></div>
+  </main>
 
   <script>
-    const cards = Array.from(document.querySelectorAll('.candidate'));
-    const resumen = document.getElementById('resumen');
-    const seleccionTxt = document.getElementById('seleccion');
+    const cells = Array.from(document.querySelectorAll('.cell'));
     const live = document.getElementById('live');
 
-    function setSelected(card){
-      cards.forEach(c=>{ const isSel = (c===card); c.classList.toggle('selected', isSel); c.setAttribute('aria-checked', isSel ? 'true' : 'false'); });
-      const f = getSelectedFile();
-      seleccionTxt.textContent = f ? f : 'Sin selección';
-      resumen.hidden = false;
+    function setSelected(cell){
+      cells.forEach(c=>{const sel=(c===cell); c.classList.toggle('selected', sel); c.setAttribute('aria-checked', sel? 'true':'false');});
       announce('Opción seleccionada');
     }
+    function selectedCell(){return cells.find(c=>c.classList.contains('selected'))||null}
+    function selectedFile(){const c = selectedCell(); return c? c.dataset.file : null}
+    function announce(msg){ live.textContent=''; setTimeout(()=> live.textContent = msg, 10); }
 
-    function getSelectedCard(){ return cards.find(c => c.classList.contains('selected')) || null; }
-    function getSelectedFile(){ const c = getSelectedCard(); return c ? c.dataset.file : null; }
-    function announce(msg){ live.textContent=''; setTimeout(()=>live.textContent=msg, 10); }
-
-    cards.forEach(c=>{
+    cells.forEach(c=>{
       c.addEventListener('click', ()=> setSelected(c));
       c.addEventListener('keydown', (e)=>{
-        if(e.key==='Enter' || e.key===' '){ e.preventDefault(); setSelected(c); }
-        const idx = cards.indexOf(c);
-        if(e.key==='ArrowRight' || e.key==='ArrowDown'){ e.preventDefault(); cards[(idx+1)%cards.length].focus(); }
-        if(e.key==='ArrowLeft' || e.key==='ArrowUp'){ e.preventDefault(); cards[(idx-1+cards.length)%cards.length].focus(); }
+        if(e.key==='Enter' || e.key===' '){ e.preventDefault(); setSelected(c);}    
       });
     });
 
     document.getElementById('btnLimpiar').addEventListener('click', ()=>{
-      cards.forEach(c=>{ c.classList.remove('selected'); c.setAttribute('aria-checked','false'); });
-      seleccionTxt.textContent = 'Sin selección'; resumen.hidden = false; announce('Selección borrada');
+      cells.forEach(c=>{ c.classList.remove('selected'); c.setAttribute('aria-checked','false'); });
     });
 
-    async function enviar(){
-      const file = getSelectedFile();
-      if(!file){ alert('Primero selecciona una opción.'); return; }
+    document.getElementById('btnEnviar').addEventListener('click', async ()=>{
+      const file = selectedFile();
+      if(!file){ alert('Primero seleccione una opción.'); return; }
       if(!window.SHEETS_ENDPOINT){ alert('Falta configurar SHEETS_ENDPOINT en config.js'); return; }
       try{
-        const res = await fetch(window.SHEETS_ENDPOINT, { method:'POST', mode:'cors', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ filename:file, ts: new Date().toISOString() }) });
+        const res = await fetch(window.SHEETS_ENDPOINT, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ filename:file, ts:new Date().toISOString() })});
         if(!res.ok) throw new Error('HTTP '+res.status);
         alert('Voto registrado: '+file);
-      }catch(err){
-        console.error(err); alert('No se pudo registrar. Revisa el endpoint en config.js.');
-      }
-    }
-
-    document.getElementById('btnEnviar').addEventListener('click', enviar);
+      }catch(err){ alert('No se pudo registrar. Verifique config.js'); }
+    });
   </script>
 </body>
 </html>
