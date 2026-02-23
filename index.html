@@ -3,99 +3,124 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Tarjeta Consulta – Frente por la Vida (Ejercicio Pedagógico)</title>
+  <title>Consulta del Frente por la Vida — ODEC | Ejercicio Pedagógico</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
-    /* Estilo sobrio, cercano a una tarjeta oficial para ejercicios pedagógicos */
     :root{
-      --ink:#111827; --muted:#374151; --line:#d1d5db; --accent:#111827; --green:#198754; --warn:#b91c1c;
-      --paper:#ffffff; --bg:#f3f4f6;
+      /* Colores base alineados a un look institucional ODEC (ajustables en :root) */
+      --odec-primary:#0B5ED7;   /* azul institucional */
+      --odec-secondary:#111827; /* tinta */
+      --odec-accent:#22C55E;    /* acento para confirmaciones */
+      --odec-line:#E5E7EB;      /* líneas y bordes */
+      --odec-bg:#F3F4F6;        /* fondo neutro */
+      --odec-paper:#FFFFFF;     /* tarjeta */
+      --odec-warn:#B91C1C;      /* advertencia */
     }
-    html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif}
-    .sheet{max-width:980px;margin:28px auto;background:var(--paper);box-shadow:0 1px 20px rgba(0,0,0,.06);border:1px solid var(--line)}
-    .hdr{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid var(--ink);padding:18px 20px}
-    .hdr h1{font-size:20px;line-height:1.25;margin:0;text-transform:uppercase;letter-spacing:.3px}
-    .hdr small{color:var(--muted)}
+    html,body{margin:0;padding:0;background:var(--odec-bg);color:var(--odec-secondary);font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif}
+    .bar{background:var(--odec-primary);color:#fff}
+    .bar-inner{max-width:1040px;margin:0 auto;padding:10px 16px;display:flex;gap:12px;align-items:center}
+    .bar img{height:28px}
+    .bar .title{font-weight:800;letter-spacing:.2px}
 
-    .notice{padding:12px 20px;border-bottom:1px solid var(--line);font-size:14px;color:var(--muted)}
-    .notice b{color:var(--ink)}
+    .sheet{max-width:1040px;margin:20px auto;background:var(--odec-paper);border:1px solid var(--odec-line);box-shadow:0 8px 24px rgba(0,0,0,.06)}
 
-    .grid{display:grid;gap:0;border-top:1px solid var(--line);border-left:1px solid var(--line);
-      grid-template-columns: repeat(2, 1fr);
-    }
-    @media (max-width:700px){ .grid{grid-template-columns:1fr} }
+    header.hdr{padding:18px 18px 12px;border-bottom:2px solid var(--odec-secondary)}
+    header.hdr h1{font-size:20px;margin:0 0 6px 0;text-transform:uppercase;letter-spacing:.3px}
+    header.hdr p{margin:0;color:#4B5563}
 
-    .cell{position:relative;min-height:240px;display:flex;flex-direction:column;gap:8px;padding:12px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);cursor:pointer}
-    .cell:focus{outline:3px solid #1d4ed81f}
-    .cell.selected{box-shadow:inset 0 0 0 2px var(--ink)}
+    .notice{padding:14px 18px;border-bottom:1px solid var(--odec-line);background:#FAFAFB}
+    .notice .caps{font-weight:800;text-transform:uppercase;letter-spacing:.2px}
+    .notice .warn{color:var(--odec-warn);font-weight:700}
 
-    .candidate-name{font-weight:800;text-align:center;margin-top:6px}
-    .photo{flex:1 1 auto;display:flex;align-items:center;justify-content:center;background:#fafafa;border:1px solid var(--line);border-radius:6px;overflow:hidden}
-    .photo img{max-width:100%;max-height:200px;object-fit:contain}
+    .grid{display:grid;border-top:1px solid var(--odec-line);border-left:1px solid var(--odec-line)}
+    @media (min-width:740px){ .grid{grid-template-columns:1fr 1fr} }
+    @media (min-width:980px){ .grid{grid-template-columns:1fr 1fr 1fr} }
 
-    .mark{position:absolute;inset:8px;display:none;place-items:center;pointer-events:none}
-    .mark img{width:55%;max-width:240px;opacity:.95}
+    .cell{position:relative;min-height:260px;display:flex;flex-direction:column;gap:10px;padding:12px;border-right:1px solid var(--odec-line);border-bottom:1px solid var(--odec-line);cursor:pointer;background:#fff}
+    .cell:hover{box-shadow:inset 0 0 0 2px #0b5ed71a}
+    .cell.selected{box-shadow:inset 0 0 0 2px var(--odec-secondary)}
+    .photo{flex:1 1 auto;display:flex;align-items:center;justify-content:center;border:1px solid var(--odec-line);background:#F9FAFB;border-radius:8px;overflow:hidden}
+    .photo img{max-width:100%;max-height:210px;object-fit:contain}
+    .name{font-weight:800;text-align:center}
+
+    .mark{position:absolute;inset:10px;display:none;place-items:center;pointer-events:none}
+    .mark img{width:58%;max-width:240px;opacity:.97;transform:rotate(-7deg)}
     .cell.selected .mark{display:grid}
 
-    .foot{display:flex;gap:10px;align-items:center;justify-content:space-between;padding:12px 20px;border-top:2px solid var(--ink)}
-    .foot .rules{font-size:14px;color:var(--muted)}
-    .meta{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
-    .meta div{border:1px solid var(--line);height:42px}
-
-    .controls{display:flex;gap:10px;flex-wrap:wrap}
-    .btn{border:1px solid var(--ink);background:var(--ink);color:#fff;padding:10px 14px;font-weight:700;letter-spacing:.2px;cursor:pointer}
-    .btn.secondary{background:transparent;color:var(--ink)}
+    footer.foot{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;padding:14px 18px;border-top:2px solid var(--odec-secondary)}
+    .rules{color:#4B5563}
+    .controls{display:flex;gap:10px}
+    .btn{border:2px solid var(--odec-secondary);background:var(--odec-secondary);color:#fff;padding:10px 14px;border-radius:8px;font-weight:800;letter-spacing:.2px;cursor:pointer}
+    .btn.secondary{background:#fff;color:var(--odec-secondary)}
+    .status{display:none;padding:10px 14px;border-left:4px solid var(--odec-accent);background:#ECFDF5;border-radius:8px;margin:12px 18px;font-weight:600}
 
     .sr{position:absolute;left:-9999px}
+    /* Impresión */
+    @media print{
+      .bar, .controls, .status{display:none !important}
+      .sheet{box-shadow:none;border:none}
+    }
   </style>
   <script src="config.js"></script>
 </head>
 <body>
-  <main class="sheet" role="application" aria-label="Tarjeta Consulta – Ejercicio Pedagógico">
+  <div class="bar">
+    <div class="bar-inner">
+      <img src="assets/odec-logo.svg" alt="ODEC"/>
+      <div class="title">ODEC — Observatorio para la Democracia y la Educación Cívica</div>
+    </div>
+  </div>
+
+  <main class="sheet" role="application" aria-label="Consulta del Frente por la Vida — Ejercicio Pedagógico">
     <header class="hdr">
-      <h1>VOTO PARA LAS CONSULTAS — TARJETA DE EJERCICIO PEDAGÓGICO</h1>
-      <small>Fecha referencial: 8 de marzo de 2026</small>
+      <h1>Consulta del Frente por la Vida — Tarjeta de Ejercicio Pedagógico</h1>
+      <p>Seleccione una sola opción. Esta simulación es de carácter pedagógico.</p>
     </header>
 
-    <div class="notice">
-      <p><b>Instrucciones para votar (simulación):</b> Marque con una <b>X</b> el precandidato de su preferencia. <b>Marcar más de una opción anula el voto</b>. Este recurso es exclusivamente pedagógico.</p>
-    </div>
+    <section class="notice">
+      <div><span class="caps">Instrucciones:</span> Marque con una <b>X</b> el precandidato de su preferencia. <span class="warn">Marcar más de una opción anula el voto.</span></div>
+    </section>
 
     <section class="grid" role="radiogroup" aria-label="Seleccione una única opción" id="grid">
-      <!-- Solo mostramos Nombre + Primer Apellido. El envío usa el nombre EXACTO del archivo -->
+      <!-- Mostramos solo Nombre + Primer Apellido. El envío usa el nombre EXACTO del archivo -->
 
       <article class="cell" role="radio" tabindex="0" aria-checked="false" data-file="Daniel Quintero.png">
         <div class="photo"><img src="Daniel Quintero.png" alt="Daniel Quintero.png"></div>
-        <div class="candidate-name">DANIEL QUINTERO</div>
+        <div class="name">DANIEL QUINTERO</div>
         <div class="mark"><img src="X.png" alt="Marca X"></div>
       </article>
 
       <article class="cell" role="radio" tabindex="0" aria-checked="false" data-file="Edinson Torres.png">
         <div class="photo"><img src="Edinson Torres.png" alt="Edinson Torres.png"></div>
-        <div class="candidate-name">EDISON TORRES</div>
+        <div class="name">EDISON TORRES</div>
         <div class="mark"><img src="X.png" alt="Marca X"></div>
       </article>
 
       <article class="cell" role="radio" tabindex="0" aria-checked="false" data-file="Hector Pineda.png">
         <div class="photo"><img src="Hector Pineda.png" alt="Hector Pineda.png"></div>
-        <div class="candidate-name">HECTOR PINEDA</div>
+        <div class="name">HECTOR PINEDA</div>
         <div class="mark"><img src="X.png" alt="Marca X"></div>
       </article>
 
       <article class="cell" role="radio" tabindex="0" aria-checked="false" data-file="Roy Barreras.png">
         <div class="photo"><img src="Roy Barreras.png" alt="Roy Barreras.png"></div>
-        <div class="candidate-name">ROY BARRERAS</div>
+        <div class="name">ROY BARRERAS</div>
         <div class="mark"><img src="X.png" alt="Marca X"></div>
       </article>
 
       <article class="cell" role="radio" tabindex="0" aria-checked="false" data-file="Martha Bernal.png">
         <div class="photo"><img src="Martha Bernal.png" alt="Martha Bernal.png"></div>
-        <div class="candidate-name">MARTHA BERNAL</div>
+        <div class="name">MARTHA BERNAL</div>
         <div class="mark"><img src="X.png" alt="Marca X"></div>
       </article>
     </section>
 
+    <div class="status" id="statusOK">Voto registrado correctamente.</div>
+
     <footer class="foot">
-      <div class="rules"><b>Recuerde:</b> Marque una sola opción. Esta tarjeta es una simulación pedagógica.</div>
+      <div class="rules"><b>Recuerde:</b> marque una sola opción. Esta tarjeta es una simulación pedagógica de la ODEC.</div>
       <div class="controls">
         <button class="btn" id="btnEnviar" title="Registrar voto en hoja">Enviar voto</button>
         <button class="btn secondary" id="btnLimpiar" title="Limpiar selección">Limpiar</button>
@@ -108,6 +133,7 @@
   <script>
     const cells = Array.from(document.querySelectorAll('.cell'));
     const live = document.getElementById('live');
+    const statusOK = document.getElementById('statusOK');
 
     function setSelected(cell){
       cells.forEach(c=>{const sel=(c===cell); c.classList.toggle('selected', sel); c.setAttribute('aria-checked', sel? 'true':'false');});
@@ -119,13 +145,12 @@
 
     cells.forEach(c=>{
       c.addEventListener('click', ()=> setSelected(c));
-      c.addEventListener('keydown', (e)=>{
-        if(e.key==='Enter' || e.key===' '){ e.preventDefault(); setSelected(c);}    
-      });
+      c.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); setSelected(c);} });
     });
 
     document.getElementById('btnLimpiar').addEventListener('click', ()=>{
       cells.forEach(c=>{ c.classList.remove('selected'); c.setAttribute('aria-checked','false'); });
+      statusOK.style.display = 'none';
     });
 
     document.getElementById('btnEnviar').addEventListener('click', async ()=>{
@@ -135,7 +160,8 @@
       try{
         const res = await fetch(window.SHEETS_ENDPOINT, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ filename:file, ts:new Date().toISOString() })});
         if(!res.ok) throw new Error('HTTP '+res.status);
-        alert('Voto registrado: '+file);
+        statusOK.style.display = 'block';
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
       }catch(err){ alert('No se pudo registrar. Verifique config.js'); }
     });
   </script>

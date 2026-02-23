@@ -1,17 +1,27 @@
-# Tarjeta de Consulta – Ejercicio Pedagógico
+# Consulta del Frente por la Vida — ODEC (Ejercicio Pedagógico)
 
-Este sitio simula una **tarjeta de consulta** para fines **pedagógicos**. Muestra únicamente **Nombre + Primer Apellido** y registra el voto usando el **nombre exacto del archivo** de la imagen (ej.: `Roy Barreras.png`).
+Este paquete publica una **tarjeta de consulta** orientada al público, con diseño sobrio y profesional alineado a la imagen de ODEC.
 
-## Uso
-1. Coloque estas imágenes **junto a `index.html`** con los nombres exactos:
-   - Daniel Quintero.png
-   - Edinson Torres.png
-   - Hector Pineda.png
-   - Roy Barreras.png
-   - Martha Bernal.png
-2. En `config.js`, pegue la URL de su **Apps Script Web App** en `window.SHEETS_ENDPOINT`.
-3. Abra `index.html`.
+## Contenido
+- `index.html`: Tarjeta interactiva (solo **Nombre + Primer Apellido**). Usa el **nombre del archivo** para registrar el voto.
+- `config.js`: Pega aquí la URL de tu **Google Apps Script (Web App)** en `window.SHEETS_ENDPOINT`.
+- `X.png`: Marca de selección.
+- `assets/odec-logo.svg`: Marcador de posición para el logo ODEC (reemplázalo por tu archivo oficial si lo tienes).
 
-## Publicación en GitHub Pages
-- Suba todo el contenido a su repositorio y active **Pages** (branch `main`, carpeta `/ (root)`).
-- URL: `https://usuario.github.io/repositorio/`.
+## Imágenes de candidatos
+Coloca estas imágenes junto a `index.html` conservando **estos nombres exactos**:
+- Daniel Quintero.png
+- Edinson Torres.png
+- Hector Pineda.png
+- Roy Barreras.png
+- Martha Bernal.png
+
+## Conexión con Google Sheets
+1. Crea una hoja con encabezados: `timestamp`, `filename`.
+2. En Apps Script, despliega tu Web App que escriba en la hoja y copia la URL.
+3. En `config.js`, asigna: `window.SHEETS_ENDPOINT = 'https://script.google.com/macros/s/TU_ID/exec'`.
+
+## GitHub Pages
+- Sube todo a tu repositorio.
+- Activa **Settings → Pages → Deploy from a branch** (branch `main`, carpeta root).
+- Abre `https://<usuario>.github.io/<repo>/`.
