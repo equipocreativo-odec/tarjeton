@@ -1,0 +1,35 @@
+[
+  {
+    "id": "frente-vida",
+    "titulo": "Frente por la Vida",
+    "candidatos": [
+      "DANIEL QUINTERO CALLE",
+      "EDISON LUCIO TORRES MORENO",
+      "HECTOR ELIAS PINEDA SALAZAR",
+      "ROY LEONARDO BARRERAS MONTEALEGRE",
+      "MARTHA VIVIANA BERNAL AMAYA"
+    ]
+  },
+  {
+    "id": "gran-consulta",
+    "titulo": "La Gran Consulta por Colombia",
+    "candidatos": [
+      "JUAN CARLOS PINZON BUENO",
+      "CLAUDIA NAYIBE LOPEZ HERNANDEZ",
+      "MAURICIO CARDENAS SANTAMARIA",
+      "DAVID ANDRES LUNA SANCHEZ",
+      "ANIBAL GAVIRIA CORREA",
+      "LEONARDO HUMBERTO HUERTA GUTIERREZ",
+      "VICTORIA EUGENIA DAVILA HOYOS",
+      "ENRIQUE PEÑALOSA LONDOÑO",
+      "JUAN MANUEL GALAN PACHON",
+      "JUAN DANIEL OVIEDO ARANGO",
+      "PALOMA SUSANA VALENCIA LASERNA"
+    ]
+  },
+  {
+    "id": "soluciones",
+    "titulo": "Consulta de las Soluciones: Salud, Seguridad y Educación",
+    "candidatos": []
+  }
+]
